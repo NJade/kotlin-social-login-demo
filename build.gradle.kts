@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("plugin.jpa") version "1.3.72"
+
+    id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
 }
 
 group = "com.njade"
