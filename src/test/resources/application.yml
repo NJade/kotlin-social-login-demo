@@ -1,0 +1,5 @@
+oauth2:
+  clients:
+    google:
+      client-id: test-google-client-id
+      client-secret: test-google-client-secret
