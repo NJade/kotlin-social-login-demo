@@ -18,9 +18,9 @@ class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    var email: String?,
+    var email: String,
     var password: String? = null,
-    var name: String?,
+    var name: String,
 
     @Enumerated(EnumType.STRING)
     var role: AccountRole?,
@@ -43,6 +43,7 @@ class Account(
     override fun toString() = kotlinToString(properties = toStringProperties)
 
     companion object {
+
         private val equalsAndHashCodeProperties = arrayOf(Account::id)
         private val toStringProperties = arrayOf(
             Account::id,

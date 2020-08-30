@@ -34,6 +34,8 @@ dependencies {
 
     implementation("au.com.console:kassava:2.1.0-rc.1")
 
+    implementation("com.auth0:java-jwt:3.10.3")
+
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     runtimeOnly("com.h2database:h2")

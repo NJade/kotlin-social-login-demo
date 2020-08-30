@@ -34,3 +34,4 @@ out/
 .vscode/
 
 **/application-oauth2.yml
+**/application-jwt.yml

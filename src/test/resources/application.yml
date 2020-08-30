@@ -3,3 +3,6 @@ oauth2:
     google:
       client-id: test-google-client-id
       client-secret: test-google-client-secret
+jwt:
+  issuer: issuer
+  secret-key: secretKey
