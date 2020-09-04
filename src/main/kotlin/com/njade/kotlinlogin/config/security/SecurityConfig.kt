@@ -1,11 +1,15 @@
 package com.njade.kotlinlogin.config.security
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.njade.kotlinlogin.config.security.filter.FilterSkipMatcher
 import com.njade.kotlinlogin.config.security.filter.JwtAuthenticationFilter
 import com.njade.kotlinlogin.config.security.filter.LocalLoginFilter
+import com.njade.kotlinlogin.config.security.filter.RefreshTokenAuthenticationFilter
 import com.njade.kotlinlogin.config.security.handler.JwtAuthenticationFailureHandler
 import com.njade.kotlinlogin.config.security.handler.LocalLoginAuthenticationFailureHandler
 import com.njade.kotlinlogin.config.security.handler.LocalLoginAuthenticationSuccessHandler
+import com.njade.kotlinlogin.config.security.handler.RefreshJwtAuthenticationFailureHandler
+import com.njade.kotlinlogin.config.security.handler.RefreshJwtAuthenticationSuccessHandler
 import com.njade.kotlinlogin.config.security.provider.JwtAuthenticationProvider
 import com.njade.kotlinlogin.config.security.provider.LocalLoginAuthenticationProvider
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
@@ -25,12 +29,16 @@ class SecurityConfig(
     val localLoginAuthenticationFailureHandler: LocalLoginAuthenticationFailureHandler,
     val localLoginAuthenticationProvider: LocalLoginAuthenticationProvider,
     val jwtAuthenticationFailureHandler: JwtAuthenticationFailureHandler,
-    val jwtAuthenticationProvider: JwtAuthenticationProvider
+    val jwtAuthenticationProvider: JwtAuthenticationProvider,
+    val refreshJwtAuthenticationSuccessHandler: RefreshJwtAuthenticationSuccessHandler,
+    val refreshJwtAuthenticationFailureHandler: RefreshJwtAuthenticationFailureHandler,
+    val objectMapper: ObjectMapper
 ) : WebSecurityConfigurerAdapter() {
 
     fun localLoginFilter(): LocalLoginFilter {
         val localLoginFilter = LocalLoginFilter(
             "/login",
+            objectMapper,
             localLoginAuthenticationSuccessHandler,
             localLoginAuthenticationFailureHandler
         )
@@ -44,6 +52,16 @@ class SecurityConfig(
             JwtAuthenticationFilter(filterSkipMatcher, jwtAuthenticationFailureHandler)
         jwtAuthenticationFilter.setAuthenticationManager(super.authenticationManagerBean())
         return jwtAuthenticationFilter
+    }
+
+    fun refreshTokenAuthenticationFilter(): RefreshTokenAuthenticationFilter {
+        val refreshTokenAuthenticationFilter = RefreshTokenAuthenticationFilter(
+            "/refresh_token",
+            refreshJwtAuthenticationSuccessHandler,
+            refreshJwtAuthenticationFailureHandler
+        )
+        refreshTokenAuthenticationFilter.setAuthenticationManager(super.authenticationManagerBean())
+        return refreshTokenAuthenticationFilter
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
@@ -67,9 +85,16 @@ class SecurityConfig(
             .disable()
 
         http
-            .addFilterBefore(localLoginFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(
+                localLoginFilter(),
+                UsernamePasswordAuthenticationFilter::class.java
+            )
             .addFilterBefore(
                 jwtAuthenticationFilter(),
+                UsernamePasswordAuthenticationFilter::class.java
+            )
+            .addFilterBefore(
+                refreshTokenAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter::class.java
             )
     }

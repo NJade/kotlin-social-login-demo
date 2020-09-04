@@ -14,14 +14,13 @@ import javax.servlet.http.HttpServletResponse
 class JwtAuthenticationFilter(
     requiresAuthenticationRequestMatcher: RequestMatcher?,
     private val jwtAuthenticationFailureHandler: JwtAuthenticationFailureHandler
-) :
-    AbstractAuthenticationProcessingFilter(requiresAuthenticationRequestMatcher) {
+) : AbstractAuthenticationProcessingFilter(requiresAuthenticationRequestMatcher) {
 
     override fun attemptAuthentication(
-        request: HttpServletRequest?,
-        response: HttpServletResponse?
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): Authentication {
-        val token = request!!.getHeader("Authorization")
+        val token = request.getHeader("Authorization")
         val jwtPreProcessingToken = JwtPreProcessingToken(headerExtract(token))
         return super.getAuthenticationManager().authenticate(jwtPreProcessingToken)
     }
@@ -34,21 +33,21 @@ class JwtAuthenticationFilter(
     }
 
     override fun successfulAuthentication(
-        request: HttpServletRequest?,
-        response: HttpServletResponse?,
-        chain: FilterChain?,
-        authResult: Authentication?
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        chain: FilterChain,
+        authResult: Authentication
     ) {
         val context = SecurityContextHolder.createEmptyContext()
         context.authentication = authResult
         SecurityContextHolder.setContext(context)
-        chain!!.doFilter(request, response)
+        chain.doFilter(request, response)
     }
 
     override fun unsuccessfulAuthentication(
-        request: HttpServletRequest?,
-        response: HttpServletResponse?,
-        failed: AuthenticationException?
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        failed: AuthenticationException
     ) {
         SecurityContextHolder.clearContext()
         this.jwtAuthenticationFailureHandler.onAuthenticationFailure(request, response, failed)

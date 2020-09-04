@@ -16,7 +16,7 @@ internal class JwtTokenProviderTest(
     @Test
     fun `jwt token test`() {
         val accountPrincipal = AccountPrincipal(1, "a", "a", mutableListOf(), mutableMapOf())
-        val generateToken = jwtTokenProvider.generateToken(accountPrincipal, 1)
+        val generateToken = jwtTokenProvider.generateAccessToken(accountPrincipal, 1)
         val decodeJwt = jwtTokenProvider.decodeJwt(generateToken)
         assertThat(decodeJwt.issuer).isEqualTo("issuer")
         assertThat(decodeJwt.subject.toLong()).isEqualTo(1)

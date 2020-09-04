@@ -1,8 +1,7 @@
 package com.njade.kotlinlogin.config.security.filter
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.njade.kotlinlogin.config.security.dto.LocalLoginDto
-import com.njade.kotlinlogin.config.security.token.PreAuthorizationToken
+import com.njade.kotlinlogin.config.security.jwt.JwtTokenProvider.Companion.REFRESH_TOKEN_COOKIE_NAME
+import com.njade.kotlinlogin.config.security.token.JwtPreProcessingToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
@@ -12,9 +11,8 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class LocalLoginFilter(
+class RefreshTokenAuthenticationFilter(
     defaultUrl: String?,
-    private val objectMapper: ObjectMapper,
     private val authenticationSuccessHandler: AuthenticationSuccessHandler,
     private val authenticationFailureHandler: AuthenticationFailureHandler
 ) : AbstractAuthenticationProcessingFilter(defaultUrl) {
@@ -23,17 +21,15 @@ class LocalLoginFilter(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): Authentication {
-        val loginDto = objectMapper.readValue(request.reader, LocalLoginDto::class.java)
-        val preAuthorizationToken = PreAuthorizationToken(loginDto)
-        return super.getAuthenticationManager().authenticate(preAuthorizationToken)
-    }
-
-    override fun unsuccessfulAuthentication(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        failed: AuthenticationException
-    ) {
-        this.authenticationFailureHandler.onAuthenticationFailure(request, response, failed)
+        val tokenCookie = request.cookies.filter {
+            it.name == REFRESH_TOKEN_COOKIE_NAME
+        }
+        if (tokenCookie.isEmpty()) {
+            throw RuntimeException() // ToDo
+        }
+        val refreshToken = tokenCookie[0]
+        val jwtPreProcessingToken = JwtPreProcessingToken(refreshToken.value)
+        return super.getAuthenticationManager().authenticate(jwtPreProcessingToken)
     }
 
     override fun successfulAuthentication(
@@ -43,5 +39,13 @@ class LocalLoginFilter(
         authResult: Authentication
     ) {
         this.authenticationSuccessHandler.onAuthenticationSuccess(request, response, authResult)
+    }
+
+    override fun unsuccessfulAuthentication(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        failed: AuthenticationException
+    ) {
+        this.authenticationFailureHandler.onAuthenticationFailure(request, response, failed)
     }
 }
