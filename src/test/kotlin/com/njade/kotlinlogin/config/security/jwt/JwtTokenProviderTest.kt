@@ -1,12 +1,12 @@
 package com.njade.kotlinlogin.config.security.jwt
 
 import com.auth0.jwt.exceptions.TokenExpiredException
-import com.njade.kotlinlogin.account.AccountPrincipal
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import com.njade.kotlinlogin.account.AccountPrincipal
 
 @SpringBootTest
 internal class JwtTokenProviderTest(
