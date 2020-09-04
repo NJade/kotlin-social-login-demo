@@ -14,8 +14,9 @@ class AccountController(
 ) {
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody signUpRequestDto: AccountControllerDto.SignUpRequestDto)
-        : ResponseEntity<AccountControllerDto.SignUpResponseDto> {
+    fun signUp(
+        @RequestBody signUpRequestDto: AccountControllerDto.SignUpRequestDto
+    ): ResponseEntity<AccountControllerDto.SignUpResponseDto> {
         val serviceRequestDto = signUpRequestDto.toServiceDto()
         val serviceResponseDto = accountService.signUp(serviceRequestDto)
         return ResponseEntity.created(URI("/")) // ToDo

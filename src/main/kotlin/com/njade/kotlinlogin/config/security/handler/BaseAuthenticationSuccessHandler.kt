@@ -37,5 +37,4 @@ abstract class BaseAuthenticationSuccessHandler(
 //        cookie.secure = true
         response.addCookie(cookie)
     }
-
 }
