@@ -1,10 +1,10 @@
 spring:
-  profiles:
-    active: oauth2, jwt
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    profiles:
+        active: oauth2, jwt
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: create-drop
+            naming:
+                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy

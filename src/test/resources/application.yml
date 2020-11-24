@@ -1,8 +1,8 @@
 oauth2:
-  clients:
-    google:
-      client-id: test-google-client-id
-      client-secret: test-google-client-secret
+    clients:
+        google:
+            client-id: test-google-client-id
+            client-secret: test-google-client-secret
 jwt:
-  issuer: issuer
-  secret-key: secretKey
+    issuer: issuer
+    secret-key: secretKey

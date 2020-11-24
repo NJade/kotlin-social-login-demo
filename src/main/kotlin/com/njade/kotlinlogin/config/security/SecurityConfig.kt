@@ -1,18 +1,6 @@
 package com.njade.kotlinlogin.config.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest
-import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.builders.WebSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import com.njade.kotlinlogin.config.security.filter.FilterSkipMatcher
 import com.njade.kotlinlogin.config.security.filter.JwtAuthenticationFilter
 import com.njade.kotlinlogin.config.security.filter.LocalLoginFilter
@@ -25,6 +13,18 @@ import com.njade.kotlinlogin.config.security.handler.RefreshJwtAuthenticationSuc
 import com.njade.kotlinlogin.config.security.jwt.JwtTokenProvider.Companion.REFRESH_TOKEN_COOKIE_NAME
 import com.njade.kotlinlogin.config.security.provider.JwtAuthenticationProvider
 import com.njade.kotlinlogin.config.security.provider.LocalLoginAuthenticationProvider
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest
+import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @Configuration
 @EnableWebSecurity

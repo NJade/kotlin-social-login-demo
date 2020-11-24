@@ -1,9 +1,5 @@
 package com.njade.kotlinlogin.config.security.provider
 
-import java.util.Date
-import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.core.Authentication
-import org.springframework.stereotype.Component
 import com.njade.kotlinlogin.account.AccountPrincipal
 import com.njade.kotlinlogin.account.AccountService
 import com.njade.kotlinlogin.config.security.jwt.JwtTokenProvider
@@ -11,6 +7,10 @@ import com.njade.kotlinlogin.config.security.jwt.JwtTokenProvider.Companion.ACCE
 import com.njade.kotlinlogin.config.security.jwt.JwtTokenProvider.Companion.REFRESH_TOKEN_TYPE
 import com.njade.kotlinlogin.config.security.token.JwtPreProcessingToken
 import com.njade.kotlinlogin.config.security.token.PostAuthorizationToken
+import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.core.Authentication
+import org.springframework.stereotype.Component
+import java.util.Date
 
 @Component
 class JwtAuthenticationProvider(
