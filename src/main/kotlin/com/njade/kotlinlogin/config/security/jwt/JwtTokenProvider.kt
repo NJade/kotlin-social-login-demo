@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTCreator
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.njade.kotlinlogin.account.AccountPrincipal
-import com.njade.kotlinlogin.config.security.property.JwtProperty
+import com.njade.kotlinlogin.common.property.JwtProperty
 import org.springframework.stereotype.Component
 import java.util.Date
 
@@ -15,16 +15,9 @@ class JwtTokenProvider(
     private val jwtProperty: JwtProperty
 ) {
 
-    fun generateAccessToken(principal: AccountPrincipal, expiredTime: Long): String {
+    fun generateJwtToken(principal: AccountPrincipal, expiredTime: Long, tokenType: String): String {
         return generateTokenBuilder(principal, expiredTime)
-            .withClaim("token_type", ACCESS_TOKEN_TYPE)
-            .sign(getAlgorithm())
-    }
-
-    // ToDo
-    fun generateRefreshToken(principal: AccountPrincipal, expiredTime: Long): String {
-        return generateTokenBuilder(principal, expiredTime)
-            .withClaim("token_type", REFRESH_TOKEN_TYPE)
+            .withClaim("token_type", tokenType)
             .sign(getAlgorithm())
     }
 

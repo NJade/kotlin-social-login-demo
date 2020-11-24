@@ -1,6 +1,6 @@
 package com.njade.kotlinlogin.config.security.filter
 
-import com.njade.kotlinlogin.common.getCookies
+import com.njade.kotlinlogin.common.getCookie
 import com.njade.kotlinlogin.config.security.jwt.JwtTokenProvider.Companion.REFRESH_TOKEN_COOKIE_NAME
 import com.njade.kotlinlogin.config.security.token.JwtPreProcessingToken
 import org.springframework.security.core.Authentication
@@ -23,11 +23,7 @@ class RefreshTokenAuthenticationFilter(
         request: HttpServletRequest,
         response: HttpServletResponse
     ): Authentication {
-        val tokenCookie = request.getCookies(REFRESH_TOKEN_COOKIE_NAME)
-        if (tokenCookie.isEmpty()) {
-            throw RuntimeException() // ToDo
-        }
-        val refreshToken = tokenCookie[0]
+        val refreshToken = request.getCookie(REFRESH_TOKEN_COOKIE_NAME) ?: throw RuntimeException()
         val jwtPreProcessingToken = JwtPreProcessingToken(refreshToken.value)
         return super.getAuthenticationManager().authenticate(jwtPreProcessingToken)
     }

@@ -1,4 +1,4 @@
-package com.njade.kotlinlogin.config.security.property
+package com.njade.kotlinlogin.common.property
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test

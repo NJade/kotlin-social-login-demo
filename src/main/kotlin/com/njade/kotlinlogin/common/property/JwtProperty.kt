@@ -1,4 +1,4 @@
-package com.njade.kotlinlogin.config.security.property
+package com.njade.kotlinlogin.common.property
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration

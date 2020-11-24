@@ -21,8 +21,7 @@ class JwtAuthenticationProvider(
     override fun authenticate(authentication: Authentication): Authentication {
         val token = authentication.principal as String
         val decodeJwt = jwtTokenProvider.decodeJwt(token)
-        // ToDo
-        val tokenType = decodeJwt.claims["token_type"] ?: throw RuntimeException()
+        val tokenType = decodeJwt.claims["token_type"] ?: throw RuntimeException() // ToDo
         if (tokenType.asString() != ACCESS_TOKEN_TYPE && tokenType.asString() != REFRESH_TOKEN_TYPE) {
             throw RuntimeException()
         }
