@@ -1,5 +1,79 @@
 # kotlin-social-login-demo
 - social login demo using kotlin and spring boot
+
+## Description
+- local login and social login(only google)
+- If user sign in, user get refresh token(cookie), and access token(response body).
+
+## Setting
+- Add application-jwt.yml in resources directory.
+- application-jwt.yml format
+```yaml
+jwt:
+    issuer: issur
+    secret-key: key
+```
+- Add application-oauth2.yml in resources directory.
+- application-oauth2.yml format
+```yaml
+oauth2:
+    clients:
+        google:
+            client-id: id
+            client-secret: secret
+```
+
+## API
+### sign-up
+- POST /api/account/signup
+#### Request
+- request body
+```
+email: String,
+password: String,
+name: String
+```
+#### Response
+- 201 created
+- response body
+```
+id: Long,
+email: String,
+name: String,
+createdAt: LocalDateTime
+```
+### local login
+- POST /login
+#### Request
+- request body
+```
+email: String,
+password: String
+```
+#### Response
+- response cookie
+```
+_ret: refresh_token
+```
+- response body
+```
+token: access_token
+```
+### social login
+- http://localhost:8080/oauth2/authorization/{provider}
+#### Response
+- same local login
+
+### Refresh Token
+- POST /refresh_token
+#### Request
+- cookie
+```
+_ret: refresh_token
+```
+#### Response
+- same local login
+
 ## Reference
 - https://www.callicoder.com/spring-boot-security-oauth2-social-login-part-1/
 - https://woowabros.github.io/experience/2020/05/11/kotlin-hibernate.html
@@ -12,3 +86,4 @@
 2. Now use InMemoryOAuth2AuthorizedClientService, change db base.
 3. Add other oauth2 login. (github, facebook, naver, kakao, etc)
 4. Add global logout. 
+5. Validate request.
